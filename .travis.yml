@@ -9,6 +9,19 @@ addons:
 before_script:
 - sudo apt-get update -qq
 - sudo apt-get install curl zip unzip check -qq
+- sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+- sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.rep
+- sudo yum install docker
+- sudo systemctl start docker
+- sudo systemctl enable docker
+- sudo yum install docker-ce-18.03.0.ce
+- curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubectl \
+  && chmod +x kubectl \
+  && mv -f kubectl /usr/local/bin/ \
+  && kubectl version
+- curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64  \
+  && install minikube-linux-amd64 /usr/local/bin/minikube \
+  && minikube version
 script:
 - make
 notifications:
@@ -16,11 +29,11 @@ notifications:
 deploy:
   provider: releases
   api_key:
-    secure: c3go1osy/T3T7qhZvQQnxR09ck5anmwGVQyQtrlx9B6QnQhLRF0NpV0CYt4PD6/4MUedCC0/EFmZpVogUyea/3F+F/j2fxsg4xUdm6gUNBKUH5wfdbHEW01JVfvwgtlZKFZmCrgNxS931yVM9yvPv02uPC4qjv2wP459wUbnEq5UkhOSaNd8rra1kaUnHdvqlJsBEKc7+lcElRuW5gFMknLXD2X3irXYr5+L2idVSmmApDwU9ufN5zAEUsh+4s3W7YZVxkrYuR2qZVHvA6jaFkKmdkO0giBaz9Tpz6UVErkWNtR6F3OWtjG3dj9dMOSIX4yjuugyDxhQsHZIbErg8TGYIIoW3tMydbgwmTOOCSKZoPSg07kByjiAQSlyVe9ISevUwyCU1TTcnQRF93/CMdDV7bnT8OAfFMkmTL/vqGNyijz5QhRVSswP8jfITx/L1jEXszEcB6hiTZu0y68tBy5ovW3o/V1Yhf03Ny941LG4AMkEuQytw5kALH8r/GKBy1HEbxSVvlaHb1ygwPh2AZoANXPGjvpBZ4gh3+95Tm0W2hMnPkbHtlXMQjfxVHabS96GB6l174aWxHD/u97bbL9AUUr2J2wx5LOoQf9Bf5mMRfPvHn8+JWgqLrO2D4LtOxNF2cGyip61uaMO36wyhbUyeFOMJEeGCNJv1wGVtK8=
+    secure: bgbXKwiEOHfdVJGKSWzlz9Ge5DFvNhGjhBPrfx9Yg3Mj6NBp7Il1egD1/qIg3fKsS6ZDWQwdeMN6PoVhns/fm4SPGgKqYuQPG8nPh92UxG9KZvAsxlOZGF/5cNZ3490OJjtDX19+X6zk7T6WJnbgyW/hawh5VonirDp5t54Yog/JV2Ytk0w3oQt+9GkME9vvR9voLhsr0icpGLS/CcHocfJB+COVwpwZ/8IIhXWYYmyu1J7Y9Ij3lsEdj2VmuXPPQfrCmx0fgvJiNJuqfExyZMwwc/074nMP0tzBJFtm0DgIheuYTgSaLMj/KWgjwrvjmmanQFeOJup3wgoPsnoatOqeWKydNtsNW9bStAElSjY0JuVj82dZfEohOBwegN1zO1wLi3qN0ek63gWVgwELAMb3pY1HlRCU8pXJvXkLXVNF/Nj3H5m7u13r87e9NQKQIQAC3zacpaH7y13KIh8HHQ/tGLEDo5pG1xjA9bKg92UUCUbtoELgcvx/kxhVVHGNlPuqBmiP/yWVByV/5Cn3cNUHc5NxGvKAv385srsn4SdY6JO8tOkdzDCH7Qgac0nNs4HmEWsqRAlnKP/wv29IkQE1rQqKNj/ALuKop1/oxuV5fWN605/4Ez1ONCCt3NZHVWIcfo9Qz79V/DHRvs8wwjfSVxISjs+ABrA3oSp2iT8=
   file_glob: true
   file: 'CentOS*.{zip}'
   on:
-    repo: yuk7/CentWSL
+    repo: kirankumarcelestial/CentWSL
     tags: true
     all_branches: true
   skip_cleanup: true
