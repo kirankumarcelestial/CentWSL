@@ -9,19 +9,6 @@ addons:
 before_script:
 - sudo apt-get update -qq
 - sudo apt-get install curl zip unzip check -qq
-- sudo yum install -y yum-utils device-mapper-persistent-data lvm2
-- sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.rep
-- sudo yum install docker
-- sudo systemctl start docker
-- sudo systemctl enable docker
-- sudo yum install docker-ce-18.03.0.ce
-- curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubectl \
-  && chmod +x kubectl \
-  && mv -f kubectl /usr/local/bin/ \
-  && kubectl version
-- curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64  \
-  && install minikube-linux-amd64 /usr/local/bin/minikube \
-  && minikube version
 script:
 - make
 notifications:
